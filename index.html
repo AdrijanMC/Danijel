@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="description" content="Dossier: Danijel — an extended single-file archive of encounters, case studies, and procedural notes." />
+  <title>DANIJEL — Dossier (Extended)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{ --red:#ef233c; --muted:#bda3a3; --bg:#060607; --card:rgba(255,255,255,0.02); --radius:16px; --glow: 0 10px 40px rgba(239,35,60,.14); }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#030203 0%, #060608 60%);color:#efecec;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .container{width:min(1160px,94vw);margin-inline:auto}
+    header{position:fixed;inset-inline:0;top:0;z-index:60;background:linear-gradient(180deg,rgba(6,6,7,.8),rgba(6,6,7,.4));backdrop-filter:blur(6px);border-bottom:1px solid rgba(239,35,60,.06)}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem}
+    .brand{display:flex;gap:.8rem;align-items:center;text-decoration:none;color:#fff}
+    .brand-title{font-family:Cinzel,serif;letter-spacing:.15em;font-weight:900}
+    .navlinks{display:flex;gap:.6rem}
+    .navlinks a{color:#eee;text-decoration:none;padding:.4rem .7rem;border-radius:10px}
+
+    .hero{min-height:88vh;display:grid;place-items:center;padding-top:76px;position:relative;overflow:hidden}
+    #embers{position:absolute;inset:0;z-index:0;opacity:.7}
+    .hero-inner{position:relative;z-index:2;text-align:center;padding:2.4rem}
+    .glitch{font-family:Cinzel,serif;font-size:clamp(3.6rem,8.5vw,8rem);letter-spacing:.14em;font-weight:900;text-transform:uppercase;filter:drop-shadow(0 0 30px rgba(239,35,60,.35));line-height:.88}
+    .glitch::before,.glitch::after{content:attr(data-text);position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
+    .glitch::before{color:#ff0033;transform:translate(-.02em,-.02em);clip-path:polygon(0 3%,100% 0,100% 45%,0 47%);opacity:.9}
+    .glitch::after{color:#7f0a12;transform:translate(.02em,.015em);clip-path:polygon(0 55%,100% 52%,100% 100%,0 100%);opacity:.45}
+    .lede{max-width:68ch;margin-inline:auto;color:var(--muted)}
+    .pill{display:inline-block;padding:.3rem .75rem;border-radius:999px;border:1px solid rgba(239,35,60,.12);background:rgba(239,35,60,.03);font-weight:600}
+    .btn{display:inline-block;padding:.7rem .95rem;border-radius:12px;border:1px solid rgba(239,35,60,.18);background:linear-gradient(180deg,rgba(239,35,60,.12),rgba(239,35,60,.02));color:#fff;text-decoration:none;margin:.3rem}
+    .btn.ghost{background:transparent;border-color:rgba(255,255,255,.06)}
+
+    section{padding:8vh 0;border-top:1px solid rgba(239,35,60,.03)}
+    .heading{font-family:Cinzel,serif;letter-spacing:.14em;text-transform:uppercase;font-size:clamp(1.15rem,2.6vw,1.9rem);color:#fff}
+    .sub{color:var(--muted);max-width:70ch}
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+    .card{background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid rgba(239,35,60,.06);box-shadow:var(--glow)}
+    .card img{width:100%;height:340px;object-fit:cover;display:block}
+    .card .body{padding:1.2rem}
+    .card h3{font-family:Cinzel,serif;margin:0 0 .4rem}
+    .card p{margin:0;color:var(--muted)}
+
+    .parallax{position:relative;min-height:52vh;border-radius:14px;overflow:hidden;border:1px solid rgba(239,35,60,.06);margin-top:1rem}
+    .parallax .layer{position:absolute;inset:0;background-size:cover;background-position:center;transform:translateY(0)}
+    .parallax .overlay{background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.7))}
+    .parallax h2{position:relative;z-index:2;padding:1rem 1.2rem;margin:0;display:inline-block;border-radius:10px;background:rgba(239,35,60,.05);border:1px solid rgba(239,35,60,.08);font-family:Cinzel,serif}
+
+    .timeline{list-style:none;padding-left:0;margin:0}
+    .timeline li{padding:.8rem 0;border-bottom:1px dashed rgba(239,35,60,.04);color:var(--muted)}
+
+    blockquote{border-left:3px solid rgba(239,35,60,.5);padding:.8rem 1rem;background:rgba(239,35,60,.02);border-radius:8px;color:#efecec}
+
+    .redacted{background:linear-gradient(90deg,#222,#111);color:transparent;text-shadow:0 0 8px rgba(0,0,0,.9);border-radius:6px;padding:.06em .2em;cursor:pointer}
+    .redacted.revealed{color:#fff;text-shadow:none}
+
+    footer{padding:3rem 0;color:#c9bebe}
+    [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .75s ease,transform .75s ease}
+    [data-reveal].visible{opacity:1;transform:none}
+
+    .longform{white-space:pre-wrap;max-width:70ch;color:var(--muted);line-height:1.6}
+
+    .feature-creature{margin:2rem auto 0;display:flex;justify-content:center}
+    .feature-creature img{width:min(720px,86%);border-radius:12px;border:1px solid rgba(239,35,60,.16);box-shadow:0 30px 80px rgba(239,35,60,.22);display:block}
+
+    @media (max-width:980px){.grid-3{grid-template-columns:1fr}.card img{height:220px}.glitch{font-size:4rem}}
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <a class="brand" href="#top">
+        <svg width="36" height="36" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" stroke="#ef233c" stroke-opacity=".6" stroke-width="2" fill="none"/></svg>
+        <span class="brand-title">DANIJEL</span>
+      </a>
+      <div class="navlinks">
+        <a href="#myth">Myth</a>
+        <a href="#case-studies">Case Studies</a>
+        <a href="#encounters">Encounters</a>
+        <a href="#analysis">Analysis</a>
+        <a href="#appendix">Appendix</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top" class="hero">
+    <canvas id="embers" aria-hidden="true"></canvas>
+    <div class="hero-inner container" data-reveal>
+      <div class="pill">THE RED SHADOW — EXTENDED DOSSIER</div>
+      <h1 class="glitch" data-text="DANIJEL">DANIJEL</h1>
+      <p class="lede">This extended dossier compiles decades of reports, field notes, blueprints of countermeasures, interviews, and a year-by-year timeline. It's long because the thing it documents grows long: patterns, repetitions and the social cost of small habits. If the file persists, so does the problem.</p>
+      <div style="margin-top:1rem">
+        <a class="btn" href="#case-studies">Read case studies</a>
+        <a class="btn ghost" href="#appendix">Jump to appendix</a>
+      </div>
+
+      <!-- FEATURE CREATURE IMAGE (ADDED) -->
+      <div class="feature-creature" data-reveal>
+        <img src="A_digital_painting_in_horror_and_dark_fantasy_styl.png" alt="Portrait of Danijel — a terrifying, otherworldly figure" />
+      </div>
+
+    </div>
+  </main>
+
+  <div class="container">
+
+    <section id="myth">
+      <div data-reveal>
+        <h2 class="heading">The Shape That Borrowed a Name — Extended</h2>
+        <div class="longform" data-reveal>
+          Danijel is not the sort of monster formed by hunger or rage. He's an accretion of attention — the slow arithmetic of repeated phrases, predictable actions, and the social incentives that reward storytelling. Across the towns catalogued in this dossier, the same mechanics appear: an offhand phrase becomes a ritual; a lullaby is hummed on a loop; a commuter group begins to take the same small detour. The accumulation is quiet, almost respectable.
+
+          One evening, a group of teens turned the story into a dare. They mapped the thresholds of the oldest neighborhood and performed a noisy walk at midnight, calling the name in a chorus. A week later, three streetlights blinked in a pattern none of the engineers could reproduce. When field notes were compared, the nodes of blinking matched the group's path to within a streetlamp's length. That is the crucial difference between myth and mechanism: the story altered the score sheet of the town.
+
+          We have attempted to separate description from moralizing. The catalog that follows is neither a sermon nor a stand-up routine; it is an inventory. It is long because short summaries obscure the way a pattern interleaves with daily life.
+        </div>
+      </div>
+    </section>
+
+    <section id="case-studies">
+      <div data-reveal>
+        <h2 class="heading">Case Studies — Towns & Patterns</h2>
+        <p class="sub">Below are three extended case studies. Each is presented with a timeline, witness fragments, and a short assessment of what intervened effectively and what failed.</p>
+      </div>
+
+      <article class="card" data-reveal style="margin-top:1rem">
+        <img alt="Main street at dusk in a small town" src="https://images.unsplash.com/photo-1505691723518-36a0492f7f4f?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Case Study A — Harren's Vale</h3>
+          <p class="sub">Harren's Vale is a small river town with a single main street. Reports began five winters ago with an apparent prank: local teenagers left notes in library books containing an invented name. Within two months the town reported a cascade of minor phenomena — clocks shifting three minutes at odd hours; porch lights turning off in sequence; a pattern of half-remembered dreams among residents.</p>
+
+          <h4 style="font-family:Cinzel,serif">Timeline</h4>
+          <div class="longform">Month 1 — Notes in library; name circulated among high schoolers.
+Month 2 — First recorded clock anomalies; a watchmaker logs three recurring 11:11 markings with audio noise.
+Month 3 — Several residents experience synchronized dreams involving a corridor; one resident quits her job.
+Month 4 — Two nights of repeated knocks reported; one family leaves town.
+Month 5 — Community meeting results in a media report; post-broadcast incidents spike for one week.
+Month 6 — Local volunteer group implements a light-mapping project; incidents decrease over the following month by 60% as measured by field reports.</div>
+
+          <h4 style="font-family:Cinzel,serif">Witness Fragments</h4>
+          <blockquote>"The knock sounded like someone practicing to be my father. I opened once, and the hallway smelled like an old coat." — anonymous</blockquote>
+          <blockquote>"I found the library note and laughed. Two weeks later my watch hiccuped and ticked a name I didn't know." — student interview</blockquote>
+
+          <h4 style="font-family:Cinzel,serif">Assessment</h4>
+          <p class="sub">Harren's Vale suggests that small distribution channels (library notes, local forums) are sufficient to seed a pattern. Intervention through community coordination — public light mapping and temporary ritual changes — correlated with a measurable decrease. The town's quick coordination likely prevented a second-order fixation.</p>
+        </div>
+      </article>
+
+      <article class="card" data-reveal style="margin-top:1rem">
+        <img alt="An old theater auditorium with empty seats" src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Case Study B — Ridgefield Suburbs</h3>
+          <p class="sub">Ridgefield's case differs: the pattern arrived through media amplification. A late-night segment featured a joking piece about the old house on Elder Street. Within days, Ridgefield reported modern anomalies: recordings of ambient noise containing slowed syllables; routers failing and regaining IP addresses in patterns; and neighborhood dogs exhibiting trance-like behavior.</p>
+
+          <h4 style="font-family:Cinzel,serif">Timeline</h4>
+          <div class="longform">Week 0 — Television segment airs, treated as a local oddity.
+Week 1 — Spike in calls reporting 'odd radio noise'; one community member posts a recording online.
+Week 2 — Distributed copies of the recording produce secondary phenomena in remote listeners; a cluster of reports originates 200km away.
+Week 4 — Pet behavior anomalies increase; a veterinary clinic records unusual heart rates in canines exposed to the audio clip.
+Week 6 — A voluntary suppression campaign begins; fewer uploads and less discussion correspond with a slow decline in new incidents.</div>
+
+          <h4 style="font-family:Cinzel,serif">Witness Fragments</h4>
+          <blockquote>"I listened to the clip at work. That night there was a knock at my door at three. It wasn't anyone. We left the house the next morning." — caller</blockquote>
+          <blockquote>"My dog won't go outside after dark. He stands staring at the neighbor's hedge like it owes him money." — Ridgefield resident</blockquote>
+
+          <h4 style="font-family:Cinzel,serif">Assessment</h4>
+          <p class="sub">Ridgefield demonstrates media risk: amplification transforms a local pattern into a distributed vector. The dossier recommends cautious handling of recordings and advises that audio sharing is a high-risk activity. Ridgefield's eventual decrease followed a community-driven information suppression initiative.</p>
+        </div>
+      </article>
+
+      <article class="card" data-reveal style="margin-top:1rem">
+        <img alt="Foggy lake path disappearing into woods" src="https://images.unsplash.com/photo-1500661152876-6f3ac71c8b49?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Case Study C — Urban District</h3>
+          <p class="sub">An urban district shows how infrastructure and anonymity complicate containment. Reports came from multiple people without clear contact chains: commuters who took different trains but reported the same corridor sensation; civic workers with overlapping schedules noticing the same clock anomalies.</p>
+
+          <h4 style="font-family:Cinzel,serif">Timeline</h4>
+          <div class="longform">Year 1 — First scattered reports; investigators treat them as unrelated.
+Year 2 — Reports converge on a bus hub where a stairwell exhibits echo anomalies.
+Year 3 — Multiple transit employees report synchronized dreams and refuse overtime in the hub area.
+Year 4 — City installs randomized lighting schedules; complaints shift elsewhere but do not vanish entirely.
+Year 5 — A pattern emerges linking the hub's foot traffic rhythm to incidents — altering commuter patterns reduces reports.</div>
+
+          <h4 style="font-family:Cinzel,serif">Witness Fragments</h4>
+          <blockquote>"We used to work nights together, now we avoid the hub at 2 a.m. The corridor feels like it's expecting footsteps you can't hear." — transit worker</blockquote>
+          <blockquote>"I felt someone call my childhood nickname but the voice wasn't a voice I knew." — commuter</blockquote>
+
+          <h4 style="font-family:Cinzel,serif">Assessment</h4>
+          <p class="sub">Urban environments complicate traceability. Interventions that worked elsewhere — local suppression, community rituals — are less effective when mobility and multiple anonymous touchpoints exist. Infrastructure changes that alter rhythm, like randomized lighting or staggered shifts, reduce alignment and thereby reduce incidents.</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="encounters">
+      <div data-reveal>
+        <h2 class="heading">Encounters — Extended Archive</h2>
+        <p class="sub">This section contains long-form witness narratives, transcriptions, and reflective interviews. The length is intentional: the details matter. Skimming erases the small behaviors that let the pattern in.</p>
+      </div>
+
+      <article class="card" data-reveal style="margin-top:1rem">
+        <img alt="Dim hospital corridor with lights" src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Nurse C — Full Statement</h3>
+          <div class="longform">"I was on the overnight shift. The intercom, at 2:12, began repeating a sound — at first we thought it was interference. It would hum '—an' — a broken syllable — and stop. By 2:47, three of the patient files on the desk were moved into a pile, face down, as if pushed by invisible hands. The security footage shows nothing but a slight dimming of the corridor light, as if the camera were checking itself. We locked the basement door and left until morning. Two months later, my partner stopped going down into basements at all."</div>
+        </div>
+      </article>
+
+      <article class="card" data-reveal style="margin-top:1rem">
+        <img alt="Old radio on a table" src="https://images.unsplash.com/photo-1473951554810-9851a0f6b44e?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Radio Clip — Listener Testimony</h3>
+          <div class="longform">"I overheard a clip on a friend’s phone in a bar, just static and a slow syllable. It lodged in the back of my head. For a week I woke and felt there was a corridor behind the dresser in my childhood home. I called my sister and described it; she said she'd had the same dream the night before. I stopped playing recordings after that."</div>
+        </div>
+      </article>
+
+      <article class="card" data-reveal style="margin-top:1rem">
+        <img alt="Foggy forest path" src="https://images.unsplash.com/photo-1499346030926-9a72daac6c63?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Hiker's Journal — Excerpt</h3>
+          <div class="longform">"We marked trees with tape and still looped back. We started laughing to keep sane and then stopped because the laughing echoed as if from inside a throat. At noon, a hat was on the bench we had left empty. No one remembers putting it there. We salted the trail and left markers so we would not return the same way."</div>
+        </div>
+      </article>
+
+      <div data-reveal style="margin-top:1rem">
+        <h3 style="font-family:Cinzel,serif">Interviews — Reflective</h3>
+        <div class="longform">In interviews, people often begin with small, mundane memories: a knock, a misplaced key. As they continue, their narrative widens until they place the event into months of changed routines. Clinicians report that repeated exposure to the recordings increases vividness of the encounters. Therapists recommend limiting exposure to avoid reinforcing the cognitive map the pattern uses.</div>
+      </div>
+    </section>
+
+    <section id="analysis">
+      <div data-reveal>
+        <h2 class="heading">Analysis — Language, Rhythm, and Social Dynamics</h2>
+        <p class="sub">This section digs into why the pattern takes hold: phonetics, group rituals, and the ecological niche that attention provides.</p>
+      </div>
+
+      <div data-reveal style="margin-top:1rem">
+        <h3 style="font-family:Cinzel,serif">Linguistic Vectors</h3>
+        <div class="longform">Certain phonetic constructions appear more effective as hooks. Short, stressed syllables with open vowels tend to persist in the auditory environment; they are easy to hum under one's breath and transfer through low-quality recordings. Repetition with slight variation — shifts in pitch or elongation — confuses auditory filters and creates a texture rather than a clear lexical item. That texture is what the pattern uses; it feeds on fuzz more than on meaning. Researchers recommended avoiding broadcast or publication of raw audio unless it is for controlled analysis.</div>
+      </div>
+
+      <div data-reveal style="margin-top:1rem">
+        <h3 style="font-family:Cinzel,serif">Rhythmic Architecture</h3>
+        <div class="longform">Spaces with regular rhythms — commuter rails, timed lighting, ritualized shift changes — provide scaffolding. The pattern aligns with these rhythms and inserts itself. Changing timing, unmooring events from strict schedules, and introducing managed variance all reduce the match quality between the environment and the pattern. In experiments across towns, randomized streetlight timing showed significant correlation with decreased reports.</div>
+      </div>
+
+      <div data-reveal style="margin-top:1rem">
+        <h3 style="font-family:Cinzel,serif">Social Incentives</h3>
+        <div class="longform">Storytelling is rewarded. The person who brings a scarier anecdote gets attention. The dossier suggests reshaping incentives: reward practical reporting (logs, timestamps) rather than dramatic retelling; community-led documentation projects where accounts are archived but not broadcast reduce amplification while preserving data for analysis.</div>
+      </div>
+
+      <div data-reveal style="margin-top:1rem">
+        <h3 style="font-family:Cinzel,serif">Policy Implications</h3>
+        <div class="longform">Local governments can act: protect municipal records from sensational redaction, coordinate community light-mapping rather than sensational coverage, and advise media outlets on responsible handling. The dossier recommends a precautionary principle: when in doubt, contain distribution of suspect media and prioritize local intervention over national attention.</div>
+      </div>
+    </section>
+
+    <section id="appendix">
+      <div data-reveal>
+        <h2 class="heading">Appendix — Protocols, Glossary, and Sources</h2>
+        <p class="sub">Long reference section with practical protocols, a glossary of terms used in the dossier, and a short bibliography of documents and interviews. This section is intentionally long to serve both as field manual and reference archive.</p>
+      </div>
+
+      <div class="card" data-reveal style="margin-top:1rem">
+        <img alt="Empty playground at dusk" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Field Protocol: Light Mapping (Step-by-step)</h3>
+          <div class="longform">1) Survey your block: note existing fixtures and rhythms.
+2) Install small, low-power fixtures where gaps exist, ensuring consistent spacing.
+3) Introduce supervised randomness: vary one fixture's on-time by ±3–7 seconds on a schedule rotated nightly.
+4) Log changes publicly to avoid rumor; share the log with neighboring households.
+5) Run the trial for 14 nights and document any reported incidents in a central, non-public ledger for analysis.</div>
+        </div>
+      </div>
+
+      <div class="card" data-reveal style="margin-top:1rem">
+        <img alt="House at night with a single lit window" src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Protocol: Oral Substitution Exercises</h3>
+          <div class="longform">This is a community exercise to reduce syllabic precision by habit training.
+1) Choose a substitution bank (e.g., 'the shadow', 'the hush', 'the bend').
+2) For two weeks, speakers replace any use of the suspect name with items from the bank.
+3) Encourage rewards for consistent substitution — small community acknowledgments work.
+4) Record compliance rates and correlate with incident reports to measure effectiveness.</div>
+        </div>
+      </div>
+
+      <div class="card" data-reveal style="margin-top:1rem">
+        <img alt="Antique clock face closeup" src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Glossary</h3>
+          <ul>
+            <li><strong>Hook:</strong> A phonetic or behavioral seed that anchors the pattern.</li>
+            <li><strong>Scaffold:</strong> Rhythmic environment that supports pattern growth.</li>
+            <li><strong>Light-mapping:</strong> The deliberate deployment of light fixtures to break predictability.</li>
+            <li><strong>Redaction effect:</strong> The secondary attention drawn by visible removals in records.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" data-reveal style="margin-top:1rem">
+        <img alt="Survivor writing in a notebook" src="https://images.unsplash.com/photo-1505691723518-36a0492f7f4f?q=80&w=2000&auto=format&fit=crop"/>
+        <div class="body">
+          <h3>Survivor Diary — Extended Excerpt</h3>
+          <div class="longform">"I wrote in a notebook every night, something small: the time I left a shoe untied, the knock I heard at midnight, the number of times the kettle clicked. After fifty nights, my list looked like a map. I shared it with the group and they laughed nervously and then started their own lists. The act of noting changed us; the pattern had less work to do when people measured it. We learned to be boring on purpose."</div>
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <div data-reveal>
+        <h2 class="heading">Closing Notes — How To Use This Dossier</h2>
+        <div class="longform">This document is intended as both a record and a practical guide. If you are a community leader, read the protocols and coordinate light-mapping. If you are a researcher, request access to the restricted media. If you are a casual reader, do not share unverified audio. The dossier is long because the interventions are mundane; the cure is attention applied with discipline. Keep records. Keep small habits unpredictable. Do not feed the machine of repetition with applause.</div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding-top:1rem;padding-bottom:3rem">
+        <div>
+          <strong style="font-family:Cinzel,serif;letter-spacing:.12em">DANIJEL — EXTENDED DOSSIER</strong>
+          <div style="color:#c9bebe">Long form. Long memory. Break patterns.</div>
+        </div>
+        <a class="btn" href="#top">Back to top</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <div style="position:fixed;right:14px;bottom:14px;z-index:80">
+    <button id="motionToggle" class="btn" aria-pressed="false">Reduce Motion</button>
+  </div>
+
+  <script>
+    // reveal on scroll
+    const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } }); }, {threshold:.22});
+    document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+
+    // embers canvas (keeps page atmosphere) - lightweight
+    const canvas = document.getElementById('embers'); const ctx = canvas.getContext('2d'); let W,H,parts=[];
+    function resize(){ const dpr = Math.min(devicePixelRatio||1,2); W=canvas.width = Math.floor(innerWidth*dpr); H=canvas.height = Math.floor(innerHeight*dpr); canvas.style.width = innerWidth+'px'; canvas.style.height = innerHeight+'px'; parts = new Array(120).fill(0).map(()=>({x:Math.random()*W,y:H+Math.random()*H*.25,r:1+Math.random()*2,v:.3+Math.random()*1.2,o:.35+Math.random()*.45})); }
+    function draw(){ ctx.clearRect(0,0,W,H); for(let p of parts){ p.y -= p.v; p.x += Math.sin(p.y*0.004)*0.35; p.o -= 0.0014; if(p.y < -20 || p.o < 0){ Object.assign(p,{x:Math.random()*W,y:H+Math.random()*H*.25,r:1+Math.random()*2,v:.3+Math.random()*1.2,o:.35+Math.random()*.45}); } const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*8); g.addColorStop(0,'rgba(239,35,60,'+p.o+')'); g.addColorStop(1,'rgba(239,35,60,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*6,0,Math.PI*2); ctx.fill(); } requestAnimationFrame(draw); }
+    window.addEventListener('resize', resize); resize(); draw();
+
+    // motion toggle
+    const mt = document.getElementById('motionToggle'); let reduced=false; mt.addEventListener('click', ()=>{ reduced=!reduced; mt.textContent=reduced?'Enable Motion':'Reduce Motion'; document.getElementById('embers').style.display = reduced ? 'none' : 'block'; document.documentElement.style.setProperty('scroll-behavior', reduced ? 'auto' : 'smooth'); });
+
+    // anchor offset for header
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', e=>{ const id = a.getAttribute('href').slice(1); const el = document.getElementById(id); if(el){ e.preventDefault(); const y = el.getBoundingClientRect().top + window.scrollY - 78; window.scrollTo({top:y,behavior:'smooth'}); } }));
+
+    // redaction reveal
+    document.addEventListener('click', (e)=>{ const t = e.target; if(t.classList && t.classList.contains('redacted')){ t.classList.toggle('revealed'); const hidden = t.getAttribute('data-hidden'); if(t.classList.contains('revealed')){ t.textContent = hidden; } else { t.textContent = '[REDACTED]'; } } });
+    document.querySelectorAll('.redacted').forEach(r=>{ r.setAttribute('role','button'); r.setAttribute('aria-pressed','false'); r.addEventListener('keydown', (ev)=>{ if(ev.key==='Enter' || ev.key===' ') r.click(); }); });
+  </script>
+</body>
+</html>
