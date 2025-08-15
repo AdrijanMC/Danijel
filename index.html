@@ -42,7 +42,8 @@
 
     .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
     .card{background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid rgba(239,35,60,.06);box-shadow:var(--glow)}
-    .card img{width:100%;height:340px;object-fit:cover;display:block}
+    /* make all cards use a consistent aspect ratio so images always look "perfect" */
+    .card img{width:100%;display:block;object-fit:cover;aspect-ratio:16/9;max-height:340px}
     .card .body{padding:1.2rem}
     .card h3{font-family:Cinzel,serif;margin:0 0 .4rem}
     .card p{margin:0;color:var(--muted)}
@@ -66,10 +67,25 @@
 
     .longform{white-space:pre-wrap;max-width:70ch;color:var(--muted);line-height:1.6}
 
+    /* Feature creature area now uses a two-column layout: image left, info right */
     .feature-creature{margin:2rem auto 0;display:flex;justify-content:center}
-    .feature-creature {width:min(720px,86%);border-radius:12px;border:1px solid rgba(239,35,60,.16);box-shadow:0 30px 80px rgba(239,35,60,.22);display:block}
+    .feature-creature {width:min(820px,94%);border-radius:12px;border:1px solid rgba(239,35,60,.16);box-shadow:0 30px 80px rgba(239,35,60,.22);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px}
 
-    @media (max-width:980px){.grid-3{grid-template-columns:1fr}.card img{height:220px}.glitch{font-size:4rem}}
+    .feature-inner{display:flex;align-items:center;gap:1.2rem;justify-content:flex-start}
+    .creature-image{width:100%;max-width:360px;height:auto;border-radius:10px;object-fit:cover;flex:0 0 auto;border:1px solid rgba(239,35,60,.08)}
+    .creature-info{flex:1 1 320px;padding:6px 8px}
+    .creature-info h3{margin:0 0 .5rem;font-family:Cinzel,serif}
+    .creature-info p{margin:0 0 .6rem;color:var(--muted)}
+    .creature-meta{display:flex;gap:.6rem;flex-wrap:wrap;color:var(--muted);font-size:.95rem}
+    .creature-meta span{background:rgba(255,255,255,0.02);padding:.25rem .5rem;border-radius:8px;border:1px solid rgba(239,35,60,.04)}
+
+    @media (max-width:980px){
+      .grid-3{grid-template-columns:1fr}
+      .card img{max-height:220px}
+      .glitch{font-size:4rem}
+      .feature-inner{flex-direction:column;align-items:center;text-align:center}
+      .creature-info{padding-top:1rem}
+    }
   </style>
 </head>
 <body>
@@ -101,7 +117,19 @@
       </div>
 
       <div class="feature-creature" data-reveal>
-        <img src="Danijel.png" alt="Terrifying Danijel" class="creature-image" style="width: 50%; height: auto;">
+        <div class="feature-inner">
+          <img src="Danijel.png" alt="Terrifying Danijel" class="creature-image">
+          <div class="creature-info">
+            <h3>danijel — the red shadow</h3>
+            <p>an accretion of attention. manifest as rhythmic echoes, misplaced items, and a quiet rearrangement of routine. not strictly "hungry" — it grows when repeated, when remembered aloud.</p>
+            <div class="creature-meta">
+              <span>reported: multi-town</span>
+              <span>vectors: audio, ritual, media</span>
+              <span>mitigation: light-mapping, oral substitution</span>
+            </div>
+            <p style="margin-top:.8rem;color:var(--muted)">short note: this panel sits outside the image area so the picture is left-aligned while the text remains readable on the right. on small screens the layout stacks.</p>
+          </div>
+        </div>
       </div>
 
     </div>
